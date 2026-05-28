@@ -1,14 +1,14 @@
 /* OSIA Furo modernization layer */
 
 :root {
-  --osia-primary: #BE4E90;
-  --osia-primary-dark: #96106A;
-  --osia-primary-soft: #F6E4EE;
+  --osia-primary: #00A0DD;
+  --osia-primary-dark: #007BAA;
+  --osia-primary-soft: #DCEFFB;
 
   --osia-gradient: linear-gradient(
     135deg,
-    #BE4E90 0%,
-    #96106A 100%
+    #00A0DD 0%,
+    #007BAA 100%
   );
 
   --osia-text: #1F2933;
@@ -29,12 +29,12 @@ html[data-theme="dark"] {
   --osia-border: #3A3F4B;
   --osia-surface: #20242D;
   --osia-surface-soft: #171A21;
-  --osia-primary-soft: #2A1724;
+  --osia-primary-soft: #0A2230;
 
-  --color-brand-primary: #D88AB8;
-  --color-brand-content: #F0A6D1;
-  --color-link: #F0A6D1;
-  --color-link--hover: #FFD0EA;
+  --color-brand-primary: #5BC8F2;
+  --color-brand-content: #8FDAF6;
+  --color-link: #8FDAF6;
+  --color-link--hover: #B7E7FA;
 }
 
 /* Typography */
@@ -148,6 +148,28 @@ h2 {
 h3 {
   color: var(--osia-text);
   margin-top: 1.7rem;
+}
+
+/* Rubric — used as the small/standalone label above the page H1
+   (e.g. "Recommendation" on index.rst). Sized between body and H1. */
+
+p.rubric {
+  font-size: 1.9rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--osia-text) !important;
+  margin: 0 0 0.4rem 0;
+  padding: 0;
+  border: none;
+}
+
+/* Index cover subtitles (SERIES X / Cyberspace security lines) */
+
+.index-subtitle p {
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0.4rem 0;
 }
 
 /* Links */

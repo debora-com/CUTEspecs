@@ -1,6 +1,6 @@
 
 Authentic Sources Services
---------------------
+--------------------------
 
 Authentic Sources Services consist of a set of services implemented on top of identity systems to favour third parties
 consumption of identity data. The services can be classified in four sets:
@@ -47,6 +47,7 @@ Services
     :return: 
     
     .. code-block:: json
+
           {
             "attributes": [
               {
