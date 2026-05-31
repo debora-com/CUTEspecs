@@ -7,13 +7,21 @@
 
     \pagestyle{plain}
     \thispagestyle{plain}
+    \osiaskipnextchapter
+    %% Suppress all TOC entries for the overview chapter (sections, subsections,
+    %% Copyright addcontentsline) — restored just before \sphinxtableofcontents
+    %% so chapters from Introduction onward appear in the TOC normally.
+    \let\osiaorigaddcontentsline\addcontentsline
+    \renewcommand{\addcontentsline}[3]{}
 
 .. _chapter-overview:
 
-Recommendation ITU-T X.1281
-===========================
+Overview
+========
 
-**APIs for interoperability of identity management systems**
+.. raw:: latex
+
+    \osiacenternextsection
 
 ITU-T X-Series Recommendations
 ------------------------------
@@ -53,8 +61,8 @@ ITU-T X-Series Recommendations
       - |nbsp| |nbsp| |nbsp| |nbsp| X.1200–X.1229
     * - |nbsp| |nbsp| |nbsp| |nbsp| Countering spam
       - |nbsp| |nbsp| |nbsp| |nbsp| X.1230–X.1249
-    * - |nbsp| |nbsp| |nbsp| |nbsp| Identity management (IdM) and Authentication
-      - |nbsp| |nbsp| |nbsp| |nbsp| X.1250–X.1299
+    * - |nbsp| |nbsp| |nbsp| |nbsp| **Identity management (IdM) and Authentication**
+      - |nbsp| |nbsp| |nbsp| |nbsp| **X.1250–X.1299**
     * - SECURE APPLICATIONS AND SERVICES (II)
       - X.1300–X.1499
     * - CYBERSECURITY INFORMATION EXCHANGE
@@ -76,8 +84,23 @@ ITU-T X-Series Recommendations
 
 *For further details, please refer to the list of ITU-T Recommendations.*
 
+.. raw:: latex
+
+    \newpage
+
+Recommendation ITU-T X.1281
+---------------------------
+
+.. only:: html
+
+    **APIs for interoperability of identity management systems**
+
+.. raw:: latex
+
+    \begin{center}\textbf{APIs for interoperability of identity management systems}\end{center}
+
 Summary
--------
+"""""""
 
 Recommendation ITU-T X.1281 describes a set of standardized application program
 interfaces (APIs) needed to connect the multiple building blocks of an identity
@@ -89,7 +112,7 @@ management solution.
     in the bibliography).
 
 History
--------
+"""""""
 
 .. list-table::
     :header-rows: 1
@@ -110,12 +133,17 @@ To access the Recommendation, type the URL https://handle.itu.int/ in the addres
 of your web browser, followed by the Recommendation's unique ID.
 
 Keywords
---------
+""""""""
 
 Authentication, identity management, interoperability.
 
+.. raw:: latex
+
+    \newpage
+    \osiacenternextsubsection
+
 Foreword
---------
+""""""""
 
 The International Telecommunication Union (ITU) is the United Nations specialized agency
 in the field of telecommunications, information and communication technologies (ICTs).
@@ -132,8 +160,12 @@ The approval of ITU-T Recommendations is covered by the procedure laid down in W
 In some areas of information technology which fall within ITU-T's purview, the necessary
 standards are prepared on a collaborative basis with ISO and IEC.
 
-Notes
------
+.. raw:: latex
+
+    \osiacenternextsubsection
+
+Note
+""""
 
 In this Recommendation, the expression "Administration" is used for conciseness to indicate
 both a telecommunication administration and a recognized operating agency.
@@ -145,8 +177,12 @@ The words "shall" or some other obligatory language such as "must" and the negat
 equivalents are used to express requirements. The use of such words does not suggest that
 compliance with the Recommendation is required of any party.
 
+.. raw:: latex
+
+    \osiacenternextsubsection
+
 Intellectual Property Rights
-----------------------------
+""""""""""""""""""""""""""""
 
 ITU draws attention to the possibility that the practice or implementation of this
 Recommendation may involve the use of a claimed Intellectual Property Right. ITU takes no
@@ -165,13 +201,14 @@ property required for the implementation of this Recommendation.
 
 .. raw:: latex
 
-    \section{Copyright}
-
-    ITU 2024
+    \vspace{4em}
+    \begin{center}\textcopyright{} ITU 2024\end{center}
 
     \medskip
     All rights reserved. No part of this publication may be reproduced, by any means whatsoever, without the
     prior written permission of ITU.
 
+    %% Restore \addcontentsline so the TOC below (and Chapter 1 onward) populate.
+    \let\addcontentsline\osiaorigaddcontentsline
     \sphinxtableofcontents
     \osiamainmatter

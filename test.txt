@@ -1,0 +1,149 @@
+POST /v1/enrollments/string?finalize=true&transactionId=string HTTP/1.1
+Host: example.com
+Content-Type: application/json
+
+{
+    "enrollmentType": "string",
+    "enrollmentFlags": {
+        "timeout": 3600,
+        "other": "other",
+        "...": "..."
+    },
+    "requestData": {
+        "priority": 1,
+        "requestType": "FIRST_ISSUANCE",
+        "deliveryAddress": {
+            "address1": "11 Rue des Rosiers",
+            "city": "Libourne",
+            "postalCode": "33500",
+            "country": "France"
+        },
+        "...": "..."
+    },
+    "contextualData": {
+        "enrollmentDate": "2019-01-11",
+        "...": "..."
+    },
+    "biographicData": {
+        "firstName": "John",
+        "lastName": "Doo",
+        "dateOfBirth": "1985-11-30",
+        "gender": "M",
+        "nationality": "FRA",
+        "...": "..."
+    },
+    "biometricData": [
+        {
+            "biometricType": "FINGER",
+            "biometricSubType": "RIGHT_INDEX",
+            "instance": "string",
+            "image": "string",
+            "imageRef": "http://imageserver.com/image?id=00003",
+            "captureDate": "2019-05-21T12:00:00+01:00",
+            "captureDevice": "string",
+            "impressionType": "LIVE_SCAN_PLAIN",
+            "width": 1,
+            "height": 1,
+            "bitdepth": 1,
+            "mimeType": "string",
+            "resolution": 1,
+            "compression": "WSQ",
+            "missing": [
+                {
+                    "biometricSubType": "RIGHT_INDEX",
+                    "presence": "BANDAGED"
+                }
+            ],
+            "metadata": "string",
+            "comment": "string",
+            "template": "string",
+            "templateRef": "http://dataserver.com/template?id=00014",
+            "templateFormat": "string",
+            "quality": 1,
+            "qualityFormat": "string",
+            "algorithm": "string",
+            "vendor": "string",
+            "encryption": {
+                "type": "JWE",
+                "scope": "string"
+            },
+            "integrity": [
+                {
+                    "id": "string",
+                    "type": "NONE",
+                    "scope": "string",
+                    "alg": "string",
+                    "encrypted": false,
+                    "hash": "string",
+                    "signature": "string",
+                    "signatureRef": "https://objectserver.com/signature?id=00003"
+                }
+            ]
+        }
+    ],
+    "documentData": [
+        {
+            "documentType": "FORM",
+            "documentTypeOther": "string",
+            "instance": "string",
+            "parts": [
+                {
+                    "pages": [
+                        1
+                    ],
+                    "data": "string",
+                    "dataRef": "http://server.com/buffer?id=00003",
+                    "width": 1,
+                    "height": 1,
+                    "mimeType": "string",
+                    "captureDate": "2019-05-21T12:00:00+01:00",
+                    "captureDevice": "string",
+                    "encryption": {
+                        "type": "JWE",
+                        "scope": "string"
+                    },
+                    "integrity": [
+                        {
+                            "id": "string",
+                            "type": "NONE",
+                            "scope": "string",
+                            "alg": "string",
+                            "encrypted": false,
+                            "hash": "string",
+                            "signature": "string",
+                            "signatureRef": "https://objectserver.com/signature?id=00003"
+                        }
+                    ]
+                }
+            ],
+            "integrity": [
+                {
+                    "id": "string",
+                    "type": "NONE",
+                    "scope": "string",
+                    "alg": "string",
+                    "encrypted": false,
+                    "hash": "string",
+                    "signature": "string",
+                    "signatureRef": "https://objectserver.com/signature?id=00003"
+                }
+            ]
+        }
+    ],
+    "encryption": {
+        "type": "JWE",
+        "scope": "string"
+    },
+    "integrity": [
+        {
+            "id": "string",
+            "type": "NONE",
+            "scope": "string",
+            "alg": "string",
+            "encrypted": false,
+            "hash": "string",
+            "signature": "string",
+            "signatureRef": "https://objectserver.com/signature?id=00003"
+        }
+    ]
+}

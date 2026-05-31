@@ -124,6 +124,48 @@ div.body td {
   width: 100% !important;
 }
 
+/* === Index / cover page only ========================================
+   The master_doc is the only page that contains <p class="rubric"> and
+   <section id="cover-title">. Scoping every rule via :has(> p.rubric)
+   keeps these changes off the other pages. */
+
+/* Center the article column in the available space (between sidebar and
+   right viewport edge), but only when the article hosts the cover. */
+.main:has(article > p.rubric) {
+  justify-content: center !important;
+}
+
+/* Force every layer inside the cover article to be full-width. The article
+   itself becomes a flex column that vertically centers its children inside
+   ~85vh, so the rubric / H1 / subtitles cluster in the middle of the page. */
+article#furo-main-content:has(> p.rubric) {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  min-height: 85vh !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+article#furo-main-content:has(> p.rubric) > section,
+article#furo-main-content:has(> p.rubric) .index-subtitle {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+}
+
+article#furo-main-content:has(> p.rubric) > p.rubric,
+article#furo-main-content:has(> p.rubric) > section,
+article#furo-main-content:has(> p.rubric) > section > h1,
+article#furo-main-content:has(> p.rubric) .index-subtitle,
+article#furo-main-content:has(> p.rubric) .index-subtitle p {
+  text-align: center !important;
+}
+
 /* Default pages: article uses full available width */
 article#furo-main-content > section {
   width: 100%;
@@ -153,23 +195,49 @@ h3 {
 /* Rubric — used as the small/standalone label above the page H1
    (e.g. "Recommendation" on index.rst). Sized between body and H1. */
 
+/* Rubric — used as the small/standalone label above the page H1
+   (e.g. "Recommendation" on index.rst). Sized between body and H1. */
+
 p.rubric {
   font-size: 1.9rem;
   font-weight: 500;
   line-height: 1.2;
   color: var(--osia-text) !important;
-  margin: 0 0 0.4rem 0;
+  margin: 3rem 0 0.6rem 0;     /* breathing room above the cover and a little gap before the H1 */
   padding: 0;
   border: none;
 }
 
-/* Index cover subtitles (SERIES X / Cyberspace security lines) */
+/* H1 directly after the "Recommendation" rubric (index cover): drop the
+   underline, and give it a bit of room before the subtitle block below. */
+p.rubric + section > h1,
+p.rubric + h1 {
+  border-bottom: none !important;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 1.5rem !important;
+}
+
+/* Index cover subtitles (SERIES X / Cyberspace security / APIs lines) */
+
+.index-subtitle {
+  text-align: center !important;
+}
 
 .index-subtitle p {
-  font-size: 1.2rem;
+  font-size: 1.55rem;
   font-weight: 700;
   line-height: 1.35;
-  margin: 0.4rem 0;
+  margin: 0.6rem 0;
+  text-align: center !important;
+}
+
+/* Cover separator line between (SERIES X + Cyberspace) and (APIs subtitle). */
+.index-subtitle + hr,
+.index-subtitle ~ hr {
+  border: none;
+  border-top: 1px solid var(--osia-border);
+  margin: 1.6rem 0;
 }
 
 /* Links */
@@ -207,6 +275,19 @@ table th {
 
 table.docutils tr:hover td {
   background: var(--osia-surface);
+}
+
+/* Highlight any table row that contains bold text — light gray background
+   (used in the X-series classification to draw attention to e.g. the
+   "Identity management (IdM) and Authentication" row). */
+table.docutils tr:has(strong) td,
+table tr:has(strong) td {
+  background: #ECEFF3 !important;
+}
+
+html[data-theme="dark"] table.docutils tr:has(strong) td,
+html[data-theme="dark"] table tr:has(strong) td {
+  background: #2A2F38 !important;
 }
 
 .table-wrapper,
@@ -309,14 +390,15 @@ div.figure {
   margin-right: auto !important;
 }
 
-/* Sidebar project title */
+/* Sidebar project title (X.1281 under the ITU logo) */
 
 .sidebar-brand-text {
-  font-size: 0.82rem !important;
-  font-weight: 500 !important;
+  font-size: 1.8rem !important;
+  font-weight: 700 !important;
   color: var(--osia-primary) !important;
   text-align: center;
   margin-top: -0.35rem;
+  letter-spacing: 0.02em;
 }
 
 /* Always visible copy button */

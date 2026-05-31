@@ -196,6 +196,62 @@ latex_elements = {
   \release{X.1281}%
 }
 
+%% Hide the next \chapter heading. Used to suppress the "Overview" chapter
+%% title on its opening page while keeping the chapter in the TOC.
+%% The whole block runs under \makeatletter/\makeatother so that \@-tokens
+%% are stored correctly inside the macro bodies (the \makeatletter inside
+%% \newcommand{}{...} doesn't help — by then the body has already been
+%% tokenized).
+\makeatletter
+\AtBeginDocument{%
+  \let\osiaorigmakechapterhead\@makechapterhead
+}
+\newcommand{\osiahidenextchapterhead}{%
+  \renewcommand{\@makechapterhead}[1]{%
+    \global\let\@makechapterhead\osiaorigmakechapterhead
+  }%
+}
+\makeatother
+
+%% Skip the next \chapter{...} call entirely: no TOC entry, no heading, no
+%% counter bump. Only emits a \cleardoublepage to start a fresh page, then
+%% restores \chapter for subsequent calls. Used so the "Overview" chapter
+%% has no row in the PDF TOC while its content still renders normally.
+\newcommand{\osiaskipnextchapter}{%
+  \let\osiaorigchapter\chapter
+  \def\chapter##1{%
+    \cleardoublepage%
+    \let\chapter\osiaorigchapter%
+  }%
+}
+
+%% Centered unnumbered section / subsection titles that still appear in the
+%% TOC. Used for the front-matter overview chapter (X-Series, Foreword,
+%% Note, Intellectual Property Rights). These hijack the NEXT \section /
+%% \subsection call so the rst heading can stay at the proper document
+%% level (HTML keeps its section structure with body content nested
+%% correctly), while the PDF gets the custom centered rendering.
+\newcommand{\osiacenternextsection}{%
+  \let\osiaorigsection\section
+  \def\section##1{%
+    \par\addvspace{1.5em}%
+    \begin{center}{\normalfont\Large\bfseries ##1\par}\end{center}%
+    \par\addvspace{0.5em}%
+    \addcontentsline{toc}{section}{##1}%
+    \let\section\osiaorigsection%
+  }%
+}
+\newcommand{\osiacenternextsubsection}{%
+  \let\osiaorigsubsection\subsection
+  \def\subsection##1{%
+    \par\addvspace{2.5em}%
+    \begin{center}{\normalfont\large\bfseries ##1\par}\end{center}%
+    \par\addvspace{1em}%
+    \addcontentsline{toc}{subsection}{##1}%
+    \let\subsection\osiaorigsubsection%
+  }%
+}
+
 \newcommand{\osiafrontmatter}{%
   \setcounter{secnumdepth}{-1}%
   \pagestyle{plain}%            % page footer: page number only (no chapter name)
@@ -246,14 +302,17 @@ latex_elements = {
         ([xshift=2.7cm, yshift=-2.95cm]current page.north west) --
         ([xshift=2.35cm, yshift=-3.4cm]current page.north west) -- cycle;
 
-      %% Title block — text pulled from conf.py cover_* constants
-      \node[anchor=north west, inner sep=0pt, text width=16cm]
+      %% Title block — text pulled from conf.py cover_* constants.
+      %% \hyphenpenalty=10000\exhyphenpenalty=10000 + \sloppy disables word
+      %% hyphenation so labels never split (e.g. "systems" → "sys-tems").
+      %% Wider text_width (18cm) gives the larger sizes room to fit on one line.
+      \node[anchor=north west, inner sep=0pt, text width=18cm]
         at ([xshift=1.5cm, yshift=-4.8cm]current page.north west)
-        {\sffamily%
-         {\Large Recommendation}\\[0.4cm]
+        {\sffamily\hyphenpenalty=10000\exhyphenpenalty=10000\sloppy%
+         {\huge Recommendation}\\[0.4cm]
          {\Huge\bfseries \coverTitle}\\[1.2cm]
-         {\large \coverSeries}\\[0.5cm]
-         {\large \coverSubject}};
+         {\Large \coverSeries}\\[0.5cm]
+         {\Large \coverSubject}};
 
       %% Thin separator
       \draw[black, line width=0.4pt]
@@ -261,9 +320,9 @@ latex_elements = {
         ([xshift=-1.5cm, yshift=-12.5cm]current page.north east);
 
       %% Subtitle
-      \node[anchor=north west, inner sep=0pt, text width=16cm]
+      \node[anchor=north west, inner sep=0pt, text width=18cm]
         at ([xshift=1.5cm, yshift=-13cm]current page.north west)
-        {\sffamily\LARGE\bfseries \coverSubtitle};
+        {\sffamily\hyphenpenalty=10000\exhyphenpenalty=10000\sloppy\LARGE\bfseries \coverSubtitle};
 
       %% ITU logo bottom-right
       \node[anchor=south east, inner sep=0pt]

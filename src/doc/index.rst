@@ -7,6 +7,10 @@
 
 .. only:: html
 
+    .. raw:: html
+
+        <hr>
+
     .. container:: index-subtitle
 
         |cover-series|
