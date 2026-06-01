@@ -4,6 +4,8 @@
 Introduction
 ============
 
+Test functionality
+
 Identity systems that are built on specific vendor solutions lack interoperability among
 the main system modules. Lack of vendor and technology interoperability causes difficulties
 in replacing a building block of an identity management system from vendor A with an equivalent

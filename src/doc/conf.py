@@ -9,15 +9,22 @@ exclude_patterns = []
 pygments_style = 'colorful'
 project = 'OSIA'
 release = 'v7.3-DRAFT'
-html_title = f"{project} {release}"
+html_title = "X.1281"
 author = 'SIA'
 
 numfig = True
 
+# --- Cover metadata: single source of truth for index.rst (via substitutions)
+# and the LaTeX cover (via \newcommand interpolation below). Edit here.
+cover_title    = 'ITU-T X.1281 (03/2024)'
+cover_series   = 'SERIES X: Data networks, open system communications and security'
+cover_subject  = 'Cyberspace security – Identity management (IdM) and Authentication'
+cover_subtitle = 'APIs for interoperability of identity management systems'
+
 extensions = ['sphinxcontrib.httpdomain','sphinxcontrib.plantuml','sphinxcontrib.openapi', 'sphinx_copybutton']
 # !!!!!! TO UPDATE BEFORE RUNNING !!!!!!
 # point to a remote PlantUML server or in alternative a local PlantUML executable / jar
-plantuml = "java -jar C:/dev/plantuml/plantuml.jar"
+plantuml = "plantuml"
 plantuml_output_format = 'svg'
 templates_path = ['_templates']
 html_js_files = [
@@ -34,6 +41,10 @@ rst_prolog = '''
 .. |tick|   unicode:: U+2714 .. HEAVY CHECK MARK
 .. |project| replace:: OSIA
 .. |release| replace:: '''+release+'''
+.. |cover-title|    replace:: '''+cover_title+'''
+.. |cover-series|   replace:: '''+cover_series+'''
+.. |cover-subject|  replace:: '''+cover_subject+'''
+.. |cover-subtitle| replace:: '''+cover_subtitle+'''
 
 .. role:: todo
 
@@ -53,7 +64,7 @@ rst_prolog = '''
             overflow: visible !important;
         }
         
-        tr th.head {background-color: #AD5389; color: white}
+        tr th.head {background-color: #00A0DD; color: white}
 
         li p {
             margin-top: 3px;
@@ -87,9 +98,10 @@ html_theme = "furo"
 html_theme_options = {
     "sidebar_hide_name": False,
 }
-html_logo = "images/logo.svg"
+html_logo = "images/logo_itu.svg"
 html_show_sourcelink = False
-html_context = {'project':'OSIA', 'version':release, 'copyright':'Secure Identity Alliance, '+str(datetime.date.today().year)}
+copyright = 'ITU 2024'
+html_context = {'project':'OSIA', 'version':release, 'copyright': copyright}
 html_last_updated_fmt = '%b %d, %Y'
 html_extra_path = ['yaml']
 
@@ -130,13 +142,19 @@ latex_elements = {
 \\newcommand{\\DUroletodo}[1]{\\colorbox{yellow}{#1} }
 \\usepackage{color}
 \\usepackage{colortbl}
-\\definecolor{tableheader}{rgb}{0.678,0.325,0.537}
+\\definecolor{tableheader}{rgb}{0,0.627,0.867}
 
 \\usepackage{makeidx}
 \\usepackage[columns=1]{idxlayout}
 
 \\usepackage{draftwatermark}
 \\SetWatermarkScale{0.5}
+
+\\usepackage{tikz}
+\\usetikzlibrary{positioning,calc}
+\\definecolor{ituBg}{HTML}{2A2D31}
+\\definecolor{ituRed}{HTML}{B91E1E}
+\\definecolor{ituAccent}{HTML}{29ABE2}
 
 ''' + r'''
 
@@ -157,24 +175,160 @@ latex_elements = {
 %%    \fancyhead[L]{ \companylogo }
 %%}
 
-%% TITLE
-\newcommand{\osiamaketitle}{
+%% Front-matter toggle: \osiafrontmatter suppresses chapter / section
+%% numbering (used between the cover and the first numbered chapter).
+%% \osiamainmatter restores numbering and resets the chapter counter so
+%% the chapter immediately after it becomes Chapter 1.
+%% Neutralise sphinxmanual.cls's TOC page-numbering swaps so they don't fight
+%% our \osiafrontmatter / \osiamainmatter macros. Also override \@title /
+%% \release here (after Sphinx writes them from project / release in conf.py)
+%% so the running header reads "Rec. ITU-T, Release X.1281" in the PDF only,
+%% without touching the HTML.
+\AtBeginDocument{%
+  \renewcommand{\sphinxtableofcontents}{%
+    \begingroup
+      \parskip = 0mm
+      \tableofcontents
+    \endgroup
+    \if@openright\cleardoublepage\else\clearpage\fi
+  }%
+  \title{Rec. ITU-T}%
+  \release{X.1281}%
+}
+
+%% Hide the next \chapter heading. Used to suppress the "Overview" chapter
+%% title on its opening page while keeping the chapter in the TOC.
+%% The whole block runs under \makeatletter/\makeatother so that \@-tokens
+%% are stored correctly inside the macro bodies (the \makeatletter inside
+%% \newcommand{}{...} doesn't help — by then the body has already been
+%% tokenized).
+\makeatletter
+\AtBeginDocument{%
+  \let\osiaorigmakechapterhead\@makechapterhead
+}
+\newcommand{\osiahidenextchapterhead}{%
+  \renewcommand{\@makechapterhead}[1]{%
+    \global\let\@makechapterhead\osiaorigmakechapterhead
+  }%
+}
+\makeatother
+
+%% Skip the next \chapter{...} call entirely: no TOC entry, no heading, no
+%% counter bump. Only emits a \cleardoublepage to start a fresh page, then
+%% restores \chapter for subsequent calls. Used so the "Overview" chapter
+%% has no row in the PDF TOC while its content still renders normally.
+\newcommand{\osiaskipnextchapter}{%
+  \let\osiaorigchapter\chapter
+  \def\chapter##1{%
+    \cleardoublepage%
+    \let\chapter\osiaorigchapter%
+  }%
+}
+
+%% Centered unnumbered section / subsection titles that still appear in the
+%% TOC. Used for the front-matter overview chapter (X-Series, Foreword,
+%% Note, Intellectual Property Rights). These hijack the NEXT \section /
+%% \subsection call so the rst heading can stay at the proper document
+%% level (HTML keeps its section structure with body content nested
+%% correctly), while the PDF gets the custom centered rendering.
+\newcommand{\osiacenternextsection}{%
+  \let\osiaorigsection\section
+  \def\section##1{%
+    \par\addvspace{1.5em}%
+    \begin{center}{\normalfont\Large\bfseries ##1\par}\end{center}%
+    \par\addvspace{0.5em}%
+    \addcontentsline{toc}{section}{##1}%
+    \let\section\osiaorigsection%
+  }%
+}
+\newcommand{\osiacenternextsubsection}{%
+  \let\osiaorigsubsection\subsection
+  \def\subsection##1{%
+    \par\addvspace{2.5em}%
+    \begin{center}{\normalfont\large\bfseries ##1\par}\end{center}%
+    \par\addvspace{1em}%
+    \addcontentsline{toc}{subsection}{##1}%
+    \let\subsection\osiaorigsubsection%
+  }%
+}
+
+\newcommand{\osiafrontmatter}{%
+  \setcounter{secnumdepth}{-1}%
+  \pagestyle{plain}%            % page footer: page number only (no chapter name)
+  \pagenumbering{roman}%        % i, ii, iii ... for cover + overview + TOC
+}
+\newcommand{\osiamainmatter}{%
+  \setcounter{secnumdepth}{2}%
+  \setcounter{chapter}{0}%
+  \pagestyle{normal}%           % restore Sphinx's default header/footer
+  \pagenumbering{arabic}%       % restart at 1, arabic, for Chapter 1 onward
+}
+
+%% Cover metadata — kept in sync with the same strings used in index.rst.
+%% Source of truth lives in conf.py (cover_title, cover_series, cover_subject,
+%% cover_subtitle). Edit there, not here.
+\newcommand{\coverTitle}{'''+cover_title+r'''}
+\newcommand{\coverSeries}{'''+cover_series.replace('–', '--')+r'''}
+\newcommand{\coverSubject}{'''+cover_subject.replace('–', '--')+r'''}
+\newcommand{\coverSubtitle}{'''+cover_subtitle+r'''}
+
+%% TITLE — ITU-style cover page (white background, fits the rest of the document)
+\newcommand{\osiamaketitle}{%
   \begin{titlepage}
-    \let\footnotesize\small
-    \let\footnoterule\relax
-    \begin{center}
-        {\vspace{0.5cm} \companylogo }
-        \vspace{1.5cm}
-        \par
-        {\rm\Huge\sffamily\bfseries {\textcolor[rgb]{0.678,0.325,0.537}{Specifications version '''+release+r'''} } \par}
-        \vfill
-        %% Project logo
-        \includegraphics[ width=12cm]{logo2.pdf} \par
-        \vfill
-        \small {\textcolor[rgb]{0.678,0.325,0.537}{\textcopyright Secure Identity Alliance, '''+str(datetime.date.today().year)+r''' } }
-    \end{center}    
-        
-    \par
+    \thispagestyle{empty}
+    \begin{tikzpicture}[remember picture, overlay]
+      %% Top-left banner: ITUPublications / Recommendations
+      \node[anchor=north west, inner sep=0pt]
+        at ([xshift=1.5cm, yshift=-1.3cm]current page.north west)
+        {\sffamily\Large\textcolor{ituAccent}{\textbf{ITU}}\textbf{Publications}};
+      \node[anchor=north west, inner sep=0pt]
+        at ([xshift=1.5cm, yshift=-1.9cm]current page.north west)
+        {\sffamily\normalsize Recommendations};
+
+      %% Top-right banner: International Telecommunication Union / Standardization Sector
+      \node[anchor=north east, inner sep=0pt]
+        at ([xshift=-1.5cm, yshift=-1.3cm]current page.north east)
+        {\sffamily\normalsize\textbf{International Telecommunication Union}};
+      \node[anchor=north east, inner sep=0pt]
+        at ([xshift=-1.5cm, yshift=-1.9cm]current page.north east)
+        {\sffamily\small Standardization Sector};
+
+      %% Red horizontal bar
+      \fill[ituRed] ([yshift=-2.6cm]current page.north west)
+        rectangle ([yshift=-2.95cm]current page.north east);
+      %% Red downward triangle
+      \fill[ituRed]
+        ([xshift=2cm, yshift=-2.95cm]current page.north west) --
+        ([xshift=2.7cm, yshift=-2.95cm]current page.north west) --
+        ([xshift=2.35cm, yshift=-3.4cm]current page.north west) -- cycle;
+
+      %% Title block — text pulled from conf.py cover_* constants.
+      %% \hyphenpenalty=10000\exhyphenpenalty=10000 + \sloppy disables word
+      %% hyphenation so labels never split (e.g. "systems" → "sys-tems").
+      %% Wider text_width (18cm) gives the larger sizes room to fit on one line.
+      \node[anchor=north west, inner sep=0pt, text width=18cm]
+        at ([xshift=1.5cm, yshift=-4.8cm]current page.north west)
+        {\sffamily\hyphenpenalty=10000\exhyphenpenalty=10000\sloppy%
+         {\huge Recommendation}\\[0.4cm]
+         {\Huge\bfseries \coverTitle}\\[1.2cm]
+         {\Large \coverSeries}\\[0.5cm]
+         {\Large \coverSubject}};
+
+      %% Thin separator
+      \draw[black, line width=0.4pt]
+        ([xshift=1.5cm, yshift=-12.5cm]current page.north west) --
+        ([xshift=-1.5cm, yshift=-12.5cm]current page.north east);
+
+      %% Subtitle
+      \node[anchor=north west, inner sep=0pt, text width=18cm]
+        at ([xshift=1.5cm, yshift=-13cm]current page.north west)
+        {\sffamily\hyphenpenalty=10000\exhyphenpenalty=10000\sloppy\LARGE\bfseries \coverSubtitle};
+
+      %% ITU logo bottom-right
+      \node[anchor=south east, inner sep=0pt]
+        at ([xshift=-1.5cm, yshift=1.5cm]current page.south east)
+        {\includegraphics[width=2.5cm]{logo_itu.png}};
+    \end{tikzpicture}
   \end{titlepage}
   \cleardoublepage
   \setcounter{footnote}{0}
@@ -183,7 +337,10 @@ latex_elements = {
 
 ''',
 
-  'maketitle': r'\osiamaketitle',
+  'maketitle': r'\osiamaketitle\osiafrontmatter',
+  # TOC suppressed at its default slot; emitted manually at the end of
+  # 00 - overview.rst so the overview chapter physically precedes the TOC.
+  'tableofcontents': '',
   'atendofbody':u'''
   \\listoftables
   \\listoffigures
@@ -192,21 +349,12 @@ latex_elements = {
 'classoptions' : ',english,openany,oneside'
 }
 
-if 'DRAFT' in release:
-    latex_elements['preamble'] += '\\SetWatermarkText{DRAFT}'
-#    rst_prolog += '''
-#.. raw:: html
-#
-#    <style>
-#        body {
-#            background-repeat: repeat-y;
-#            background-image:url("data:image/svg+xml;utf8, <svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='50px' width='400px'> <text x='10' y='20' fill='black' font-size='30' opacity='0.1'>DRAFT    DRAFT    DRAFT</text> </svg>");
-#        }
-#    </style>
-#'''
-else:
-    latex_elements['preamble'] += '\\SetWatermarkText{}'
-
+# DRAFT watermark always disabled (PDF should not be marked as DRAFT even when
+# `release` still contains "DRAFT"). To re-enable, switch back to the
+# `if 'DRAFT' in release` conditional that was here previously.
+# if 'DRAFT' in release:
+#     latex_elements['preamble'] += '\\SetWatermarkText{}'
+latex_elements['preamble'] += '\\SetWatermarkText{}'
 
 # Copy images
 import os,shutil,fnmatch
@@ -216,8 +364,9 @@ def setup(app):
     except:
         pass
     for root, dirs, files in os.walk(os.path.join(app.srcdir,'images')):
-        for f in fnmatch.filter(files,"*.pdf"):
-            shutil.copy(os.path.join(root,f),app.outdir)
+        for pattern in ('*.pdf', '*.png'):
+            for f in fnmatch.filter(files, pattern):
+                shutil.copy(os.path.join(root, f), app.outdir)
 
 
 if 'itu' in tags:
