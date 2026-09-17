@@ -11,7 +11,7 @@
 
 .. _chapter-overview:
 
-<title of this document>
+Title of this document
 ========================
 
 .. only:: html
@@ -163,12 +163,10 @@ voluptatem accusantium doloremque laudantium.
     :numbered:
     :hidden:
 
-    01 - intro
-    02 - functional
-    03 - security
-    05 - interfaces
-    06 - building blocks
-    07 - technical specs
-    annexes/index
-    appendices/index
-    bibliography
+    chapter1
+    chapter2
+    chapter3
+    chapter4/index
+    annex/index
+    appendix/index
+    references

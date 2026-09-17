@@ -164,20 +164,8 @@ latex_elements = {
 
 \renewcommand*{\sphinxstyletheadfamily}{\cellcolor{tableheader}\sffamily\color{white}}
 
-\newcommand{\companylogo}{
-\includegraphics [ width=3.5cm] {logo.pdf}
-}
-\newcommand{\companylogobig}{
-\includegraphics [ width=10cm] {logo2.pdf}
-}
-
-%% HEADER-FOOTER
-%%\fancypagestyle{plain}{
-%%   \fancyhead[L]{ \companylogo }
-%%}
-%%\fancypagestyle{normal}{
-%%    \fancyhead[L]{ \companylogo }
-%%}
+%% HEADER-FOOTER (disabled). Previously defined \companylogo / \companylogobig
+%% macros using logo.pdf / logo2.pdf; removed along with those unused images.
 
 %% Front-matter toggle: \osiafrontmatter suppresses chapter / section
 %% numbering (used between the cover and the first numbered chapter).
