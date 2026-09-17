@@ -5,3 +5,4 @@ src/doc/_build/*
 target/
 .venv/
 __pycache__/
+plantuml.jar

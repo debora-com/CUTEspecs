@@ -1,18 +1,8 @@
 
 .. _chapter-security:
 
-Security & Privacy
+<Chapter 3>
 ==================
-
-Introduction
-------------
-
-OSIA defines a set of interfaces/APIs rather than a complete identity management system. It is therefore out of scope for OSIA to recommend security and privacy mechanisms beyond the APIs level.
-
-Virtual UIN
------------
-
-All persons recorded in a registry have a UIN that is considered a key to access the person’s data for all records. Please note that the UIN does not have to be the same throughout all registries as long as there is a mechanism to map all different UINs among them.
 
 Authorization
 -------------

@@ -9,22 +9,26 @@ exclude_patterns = []
 pygments_style = 'colorful'
 project = 'OSIA'
 release = 'v7.3-DRAFT'
-html_title = "X.1281"
+html_title = "<acronym>"
 author = 'SIA'
 
 numfig = True
 
 # --- Cover metadata: single source of truth for index.rst (via substitutions)
 # and the LaTeX cover (via \newcommand interpolation below). Edit here.
-cover_title    = 'ITU-T X.1281 (03/2024)'
+cover_title    = 'ITU-T <acronym> (03/2024)'
 cover_series   = 'SERIES X: Data networks, open system communications and security'
 cover_subject  = 'Cyberspace security – Identity management (IdM) and Authentication'
 cover_subtitle = 'APIs for interoperability of identity management systems'
 
 extensions = ['sphinxcontrib.httpdomain','sphinxcontrib.plantuml','sphinxcontrib.openapi', 'sphinx_copybutton']
-# !!!!!! TO UPDATE BEFORE RUNNING !!!!!!
-# point to a remote PlantUML server or in alternative a local PlantUML executable / jar
-plantuml = "plantuml"
+# PlantUML command. On CI (GitHub Actions / Read the Docs) the `plantuml` package
+# is installed via apt and provides a `plantuml` command on PATH, so the default
+# works there. For a local build, set the PLANTUML environment variable to point at
+# a local jar, e.g. (PowerShell):
+#   $env:PLANTUML = "java -jar C:/dev/TIDA-spec-template/plantuml.jar"
+import os as _os
+plantuml = _os.environ.get("PLANTUML", "plantuml")
 plantuml_output_format = 'svg'
 templates_path = ['_templates']
 html_js_files = [
@@ -98,7 +102,7 @@ html_theme = "furo"
 html_theme_options = {
     "sidebar_hide_name": False,
 }
-html_logo = "images/logo_itu.svg"
+html_logo = "images/TIDA_logo.png"
 html_show_sourcelink = False
 copyright = 'ITU 2024'
 html_context = {'project':'OSIA', 'version':release, 'copyright': copyright}
@@ -182,7 +186,7 @@ latex_elements = {
 %% Neutralise sphinxmanual.cls's TOC page-numbering swaps so they don't fight
 %% our \osiafrontmatter / \osiamainmatter macros. Also override \@title /
 %% \release here (after Sphinx writes them from project / release in conf.py)
-%% so the running header reads "Rec. ITU-T, Release X.1281" in the PDF only,
+%% so the running header reads "Rec. ITU-T, Release <acronym>" in the PDF only,
 %% without touching the HTML.
 \AtBeginDocument{%
   \renewcommand{\sphinxtableofcontents}{%
@@ -193,7 +197,7 @@ latex_elements = {
     \if@openright\cleardoublepage\else\clearpage\fi
   }%
   \title{Rec. ITU-T}%
-  \release{X.1281}%
+  \release{<acronym>}%
 }
 
 %% Hide the next \chapter heading. Used to suppress the "Overview" chapter
@@ -324,10 +328,10 @@ latex_elements = {
         at ([xshift=1.5cm, yshift=-13cm]current page.north west)
         {\sffamily\hyphenpenalty=10000\exhyphenpenalty=10000\sloppy\LARGE\bfseries \coverSubtitle};
 
-      %% ITU logo bottom-right
+      %% TIDA logo bottom-right
       \node[anchor=south east, inner sep=0pt]
         at ([xshift=-1.5cm, yshift=1.5cm]current page.south east)
-        {\includegraphics[width=2.5cm]{logo_itu.png}};
+        {\includegraphics[width=2.5cm]{tida-logo.png}};
     \end{tikzpicture}
   \end{titlepage}
   \cleardoublepage
@@ -371,7 +375,7 @@ def setup(app):
 
 if 'itu' in tags:
     rst_prolog += '''
-.. |osia| replace:: ITU-T X.1281
+.. |osia| replace:: ITU-T <acronym>
 .. |specification| replace:: recommendation
 .. |chapter| replace:: clause
     '''
