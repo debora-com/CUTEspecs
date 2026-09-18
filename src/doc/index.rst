@@ -11,6 +11,23 @@
 
 .. _chapter-overview:
 
+.. only:: html
+
+    .. admonition:: This is a document template
+        :class: tip
+
+        Replace the ``<placeholders>`` and the *lorem ipsum* text throughout with
+        your own content. This landing page is the document's front matter:
+
+        * **Abstract**, **History**, **Authors**, **Keywords** and **Foreword**
+          are standard front-matter sections — keep them and fill them in.
+        * **Chapters 1–4** demonstrate the authoring system (text, figures,
+          tables, diagrams, and API references). Read them, then replace their
+          content with your specification.
+
+        This notice appears on the web version only; it is excluded from the
+        published PDF. See the project ``HOWTO`` for how to build and publish.
+
 Title of this document
 ========================
 
@@ -163,10 +180,10 @@ voluptatem accusantium doloremque laudantium.
     :numbered:
     :hidden:
 
-    chapter1
-    chapter2
-    chapter3
-    chapter4/index
-    annex/index
-    appendix/index
-    references
+    chapters/01_chapter1
+    chapters/02_chapter2
+    chapters/03_chapter3
+    chapters/04_chapter4/index
+    chapters/05_annex/index
+    chapters/06_appendix/index
+    chapters/07_references
