@@ -1,25 +1,23 @@
 
-# (c) Secure Identity Alliance
-
 import datetime
 
 source_suffix = {'.rst': 'restructuredtext'}
 master_doc = 'index'
 exclude_patterns = []
 pygments_style = 'colorful'
-project = 'OSIA'
-release = 'v7.3-DRAFT'
+project = '<acronym>'
+release = '<version>'
 html_title = "<acronym>"
-author = 'SIA'
+author = '<author>'
 
 numfig = True
 
 # --- Cover metadata: single source of truth for index.rst (via substitutions)
 # and the LaTeX cover (via \newcommand interpolation below). Edit here.
-cover_title    = 'ITU-T <acronym> (03/2024)'
-cover_series   = 'SERIES X: Data networks, open system communications and security'
-cover_subject  = 'Cyberspace security – Identity management (IdM) and Authentication'
-cover_subtitle = 'APIs for interoperability of identity management systems'
+cover_title    = '<acronym>'
+cover_series   = '<series or category>'
+cover_subject  = '<subject line>'
+cover_subtitle = '<subtitle of this document>'
 
 extensions = ['sphinxcontrib.httpdomain','sphinxcontrib.plantuml','sphinxcontrib.openapi', 'sphinx_copybutton']
 # PlantUML command. On CI (GitHub Actions / Read the Docs) the `plantuml` package
@@ -104,8 +102,8 @@ html_theme_options = {
 }
 html_logo = "images/TIDA_logo.png"
 html_show_sourcelink = False
-copyright = 'ITU 2024'
-html_context = {'project':'OSIA', 'version':release, 'copyright': copyright}
+copyright = '<year>, <author>'
+html_context = {'project':project, 'version':release, 'copyright': copyright}
 html_last_updated_fmt = '%b %d, %Y'
 html_extra_path = ['yaml']
 
@@ -140,7 +138,7 @@ latex_elements = {
 \\usepackage{bbding,pifont} %% two dingbat fonts
 \\usepackage{attachfile}
 
-\\attachfilesetup{author=Secure Identity Alliance,color=0 0.5 0.5}
+\\attachfilesetup{color=0 0.5 0.5}
 
 \\DeclareUnicodeCharacter{2714}{\\Checkmark}
 \\newcommand{\\DUroletodo}[1]{\\colorbox{yellow}{#1} }
