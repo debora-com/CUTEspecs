@@ -1,50 +1,63 @@
-# OSIA Initiative
+# Specification Template
 
-_A digital public good, OSIA is an open standard set of interfaces (APIs) that enables seamless connectivity between building blocks of the identity management ecosystem - independent of technology, solution architecture or vendor._
+A turnkey template for writing technical **specifications** with
+[Sphinx](https://www.sphinx-doc.org/). It bundles everything a spec author
+needs — structured chapters, tables, diagrams, an auto-generated API reference,
+and one-command publishing to the web and PDF — so you can start writing
+content instead of wiring up tooling.
 
-[![Documentation Status](https://readthedocs.org/projects/osia/badge/?version=latest)](https://osia.readthedocs.io/en/latest/?badge=latest)
+The published document is available at
+<https://debora-com.github.io/TIDA-template/>.
 
-![SIA Logo](OSIA_Colour_Logo_RGB_400px.png "Secure Identity Alliance")
+## Features
 
-## Presentation
+- **Web + PDF from one source** — the same content builds a modern HTML site and
+  a print-ready PDF.
+- **API reference from OpenAPI** — drop an OpenAPI (Swagger) file in `yaml/` and
+  the endpoints, schemas, and examples are generated automatically.
+- **Diagrams as text** — sequence, class, and other diagrams via
+  [PlantUML](https://plantuml.com), kept in version control alongside the prose.
+- **Self-documenting** — the template's own chapters explain and demonstrate the
+  authoring system as you read them.
+- **Automatic publishing** — pushing to `main` builds and deploys the site (and
+  PDF) via GitHub Actions and GitHub Pages.
 
-In 2019, the non-for-profit Secure Identity Alliance (SIA)[^1], launched the global OSIA initiative.
+## Getting started
 
-The aim of the OSIA Initiative is to develop a framework of open standards for the interoperability of foundational identity systems.
-Around the globe, legal or official identity is the foundation of national security, social protection, and economic growth strategies.
+1. Create your own copy (use the green **Use this template** button on GitHub, or
+   clone this repository).
+2. Replace the `<placeholders>` and the *lorem ipsum* content with your own. The
+   landing page (`src/doc/index.rst`) is the document's front matter; the content
+   lives under `src/doc/chapters/`.
+3. Read the built chapters — they explain how to write text, tables, diagrams,
+   cross-references, and API references.
+4. Build and preview locally (see the [HOWTO](HOWTO.md)), or just push to `main`
+   and let GitHub Pages publish it.
 
-As the identity market matures, technologies like digital identity, biometrics and cloud platforms are transforming the identity landscape. Making it possible to:
-* enable national identity schemes that are truly inclusive and serve the needs of all stakeholders
-* initiate the delivery of innovative digital public and private services.
+## Building the documentation
 
-To capture this opportunity without undue cost or time-consuming integration effort, governments need to be free to evolve, adapt, modernize, and add to their systems with confidence – and without fear of future compatibility issues.
+Full instructions are in [HOWTO.md](HOWTO.md). In short:
 
-Until recently, however, the initiation of highly functional and interoperable foundational identity systems that are easy to upgrade or change has been constrained by a siloed approach and lack of standardization that made it difficult to connect registries or exchange, consult, or update data between systems.
-
-OSIA breaks silos and enables interoperability.
-
-It also enables the all-important government industry collaborations needed to create the frameworks that make it possible to build truly open, innovative and future-proofed national identity systems, OSIA is transforming how governments leverage identity to deliver real-world impacts for their citizens and national economies.
-
-[^1]: Secure Identity Alliance (SIA) is established as a non-profit association (N° 0785731573) pursuant to the Companies and Associations Code of 23 March 2019, published in the Belgian Official Gazette of 4 April 2019 with a registered office located in the Brussels-Capital Region. The disinterested goal of the non-profit association is to unify the ecosystem of identity (ID) and unlock the full power of identity so that people, economy, and society thrive. Representing ID actors and organisations active across the ID ecosystem and adjacent industries, the Association supports the development of the activities of its members across four broad pillars: Identity for Good, Outreach, Open Standards Development and Industry Services and Solutions.
-
-See also https://secureidentityalliance.github.io/
-
-## Building documentation
-
-OSIA documentation is written in reStruturedText and built with Sphinx.
-
-You can read the latest version on https://osia.readthedocs.io/en/latest/
-
-To build it yourself, prepare your environment:
-
-```
-pip install Sphinx Pillow sphinxcontrib-httpdomain sphinxcontrib-plantuml sc-oa
-```
-
-UML diagrams are built with PlantUML and Java. They must be installed separately.
-
-Build:
-
-```
+```shell
+pip install -r requirements.txt
 sphinx-build -b html src/doc target/html
 ```
+
+Diagrams require [PlantUML](https://plantuml.com/download); API reference
+generation and PDF output need their respective tools, all covered in the HOWTO.
+
+## Built on
+
+This template stands on excellent open-source projects:
+
+- [Sphinx](https://www.sphinx-doc.org/) — the documentation engine
+- [Furo](https://github.com/pradyunsg/furo) — the HTML theme (MIT), with custom
+  styling on top
+- [sphinxcontrib-openapi](https://sphinxcontrib-openapi.readthedocs.io/),
+  [sphinxcontrib-plantuml](https://github.com/sphinx-contrib/plantuml) — the API
+  and diagram extensions
+
+## License
+
+A license for this template is being finalised. Until then, all rights are
+reserved. If you would like to use it, please get in touch.
