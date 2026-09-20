@@ -7,7 +7,7 @@ and one-command publishing to the web and PDF — so you can start writing
 content instead of wiring up tooling.
 
 The published document is available at
-<https://debora-com.github.io/TIDA-template/>.
+<https://debora-com.github.io/CUTEspecs/>.
 
 ## Features
 

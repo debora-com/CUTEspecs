@@ -555,21 +555,24 @@ article#furo-main-content > section:has(> aside.sidebar) {
 article#furo-main-content > section:has(> aside.sidebar) > :not(aside.sidebar) {
   grid-column: 1;
   min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;   /* keep wide content from spilling into column 2 */
+}
+
+/* Wide code blocks in the left column scroll inside themselves instead of
+   overflowing sideways into the Operations box column. */
+article#furo-main-content section:has(aside.sidebar) [class*="highlight"] {
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 article#furo-main-content > section:has(> aside.sidebar) > aside.sidebar {
   grid-column: 2;
-  grid-row: 1 / span 50;
-
-  position: sticky;
-  top: 1rem;
-  align-self: start;
 
   width: 16em;
   min-width: 16em;
-  max-height: calc(100vh - 2rem);
-  overflow-y: auto;
   font-size: 0.9rem;
+  background: var(--osia-surface-soft);
 }
 
 /* OpenAPI service sidebar — OSIA card style */

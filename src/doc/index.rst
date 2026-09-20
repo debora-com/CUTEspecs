@@ -70,7 +70,7 @@ History
 
 To access this Document as a PDF, open the published documentation site in your web
 browser and click the PDF download link, or navigate directly to
-https://debora-com.github.io/TIDA-template/osia.pdf.
+https://debora-com.github.io/CUTEspecs/osia.pdf.
 
 Authors
 -------
