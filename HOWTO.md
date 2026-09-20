@@ -77,11 +77,27 @@ refresh the page that includes them).
 - **Text, tables, diagrams, cross-references** — see the built chapters; they
   demonstrate every feature and the source shows the markup.
 - **Add an API reference** — put your OpenAPI (Swagger 3.0) file in `src/doc/yaml/`,
-  copy `src/doc/chapters/04_chapter4/interface1.rst` as a pattern (repoint its
-  `../../yaml/…` paths at your file), and list the new page in
+  copy `src/doc/chapters/04_chapter4/_interface1.rst` as a pattern (repoint its
+  `../../yaml/…` paths at your file), and include the new page from
   `04_chapter4/index.rst`.
 - **Add an image** — put it in `src/doc/images/` and reference it with a relative
   path (see chapter 2). Use a single PNG so it works in both HTML and PDF.
+
+### Splitting a chapter across files (`include`)
+
+A chapter can be assembled from several source files with `.. include::`, so its
+content stays in one page while the source is broken into manageable pieces (see
+`chapters/03_chapter3.rst`, and the annex and appendix). Two rules keep this
+working:
+
+- **Name included fragments with a leading underscore** (for example
+  `_annex1.rst`). The build skips underscore-prefixed files as standalone pages,
+  so their labels and headings are not processed twice.
+- **Demote the headings inside an included fragment by one level.** The
+  container page's title uses `===` (chapter level), so a heading inside an
+  included fragment must use `---` (section level) to nest *under* the chapter.
+  If you leave it at `===`, it becomes its own numbered chapter in the menu
+  instead of a section of the current one.
 
 ### Changing the look
 

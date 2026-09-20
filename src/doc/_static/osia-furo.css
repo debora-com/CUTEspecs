@@ -541,31 +541,20 @@ aside.sidebar {
   display: none !important;
 }
 
-/* OpenAPI page layout: main text + right service sidebar */
-article#furo-main-content > section {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 180px;
-  column-gap: 2rem;
-  width: 100%;
-  max-width: 1250px;
-}
-
-/* Main content on the left */
-article#furo-main-content > section > :not(aside.sidebar) {
-  grid-column: 1;
-}
-
-/* OpenAPI pages only: when the section contains aside.sidebar */
+/* OpenAPI page layout: main text (left) + sticky operations box (right).
+   Only sections that actually contain an ".. sidebar::" box become a 2-column
+   grid; everything else stays single-column and full-width. The right column
+   is a fixed width and the left fills all remaining space (no gap). */
 article#furo-main-content > section:has(> aside.sidebar) {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 180px;
+  grid-template-columns: minmax(0, 1fr) 16em;
   column-gap: 2rem;
   width: 100%;
-  max-width: 1250px;
 }
 
 article#furo-main-content > section:has(> aside.sidebar) > :not(aside.sidebar) {
   grid-column: 1;
+  min-width: 0;
 }
 
 article#furo-main-content > section:has(> aside.sidebar) > aside.sidebar {
@@ -576,8 +565,8 @@ article#furo-main-content > section:has(> aside.sidebar) > aside.sidebar {
   top: 1rem;
   align-self: start;
 
-  width: 180px;
-  min-width: 180px;
+  width: 16em;
+  min-width: 16em;
   max-height: calc(100vh - 2rem);
   overflow-y: auto;
   font-size: 0.9rem;
@@ -636,3 +625,4 @@ article#furo-main-content aside.sidebar td {
   background: transparent !important;
   padding: 0;
 }
+

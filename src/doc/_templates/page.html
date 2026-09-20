@@ -167,14 +167,12 @@
               {%- endif %}
             </div>
             {%- endif %}
-            {% trans %}Made with {% endtrans -%}
-            {%- if show_sphinx -%}
-            {% trans %}<a href="https://www.sphinx-doc.org/">Sphinx</a> and {% endtrans -%}
-            <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-            {% endif -%}
-            {% trans %}
+            Made with &#10084;&#65039; using
+            <a href="https://github.com/debora-com">CUTEspec</a>
+            {%- if show_sphinx %} &middot;
+            built on <a href="https://www.sphinx-doc.org/">Sphinx</a> and
             <a href="https://github.com/pradyunsg/furo">Furo</a>
-            {% endtrans %}
+            {%- endif %}
             {%- if last_updated -%}
             <div class="last-updated">
               {% trans last_updated=last_updated|e -%}

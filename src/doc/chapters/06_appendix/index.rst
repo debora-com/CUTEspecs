@@ -4,6 +4,4 @@
 Appendix
 ==========
 
-.. toctree::
-
-    appendix1
+.. include:: _appendix1.rst

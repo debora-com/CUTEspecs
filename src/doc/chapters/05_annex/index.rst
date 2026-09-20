@@ -4,7 +4,6 @@
 Annex
 =======
 
-.. toctree::
+.. include:: _annex1.rst
 
-    annex1
-    annex2
+.. include:: _annex2.rst

@@ -3,10 +3,8 @@
    and repoint every "../../yaml/example.yaml" at your own OpenAPI file. Then
    list the new page in this folder's index.rst. The directives below do the rest:
      openapi:version  -> prints the version from the file's info.version
-     openapi:toc      -> a sidebar list of the operations
+     openapi:toc      -> a floating box listing the operations
      openapi           -> the full generated reference (endpoints, schemas, examples)
-
-.. _interface-example:
 
 Example Interface
 -----------------
@@ -21,7 +19,7 @@ This is version :openapi:version:`../../yaml/example.yaml` of this interface.
 
     Get the OpenAPI file: \textattachfile[]{../html/example.yaml}{example.yaml}
 
-.. sidebar:: Example Interface
+.. sidebar:: Operations
 
     .. openapi:toc:: ../../yaml/example.yaml
         :nb_columns: 1

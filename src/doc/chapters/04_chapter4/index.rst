@@ -25,6 +25,4 @@ How it works
 The example interface on the next page is generated entirely from
 ``yaml/example.yaml`` — edit that file and the documentation follows.
 
-.. toctree::
-
-    interface1
+.. include:: _interface1.rst
