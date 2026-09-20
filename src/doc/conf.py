@@ -12,6 +12,13 @@ author = '<author>'
 
 numfig = True
 
+# Pin the LaTeX/PDF output to a stable filename (specification.tex ->
+# specification.pdf) regardless of the project name, so the publish workflow
+# always knows what to copy.
+latex_documents = [
+    (master_doc, 'specification.tex', project, author, 'manual'),
+]
+
 # --- Cover metadata: single source of truth for index.rst (via substitutions)
 # and the LaTeX cover (via \newcommand interpolation below). Edit here.
 cover_title    = '<acronym>'

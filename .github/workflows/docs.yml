@@ -56,7 +56,7 @@ jobs:
           make -C target/latex
 
       - name: Include PDF in the site
-        run: cp target/latex/osia.pdf target/html/osia.pdf
+        run: cp target/latex/specification.pdf target/html/specification.pdf
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
