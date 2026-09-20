@@ -59,5 +59,7 @@ This template stands on excellent open-source projects:
 
 ## License
 
-A license for this template is being finalised. Until then, all rights are
-reserved. If you would like to use it, please get in touch.
+Released under the [MIT License](LICENSE) — free to use, modify, and
+distribute, including for your own specifications. The bundled dependencies keep
+their own licenses (for example [Furo](https://github.com/pradyunsg/furo) is
+MIT); preserve their notices when you redistribute.

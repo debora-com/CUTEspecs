@@ -1,53 +1,110 @@
-# How to Contribute
+# How to use this template
 
-This is a small guide for the contributors, explaining how to change and build the OSIA documentation.
+This guide explains how to start a document from this template, build it
+locally, edit its content, and publish it.
 
-## Setup your build environment
+## 1. Start your document
 
-This OSIA documentation is written in reStruturedText and built with Sphinx. There is no specific
-tool to write it, just any text editor will do and many have a plugin to help and write reST syntax.
+Create your own copy of the template:
 
-To build the documentation and check it before pushing it in Github, Sphinx must be installed.
+- On GitHub, click **Use this template → Create a new repository**, or
+- clone this repository and push it to a repository of your own.
 
-1. Install Python 3.x (x>=9). Python 3.12, the latest version, is working fine.
-2. Install Java 17. Java is required for PlantUML.
-3. Install PlantUML version 1.2024.7 (available from http://plantuml.com/download).
-   The command ``plantuml`` must be accessible.
+Then work through the content:
 
-4. (optional) Create a Python virtual environment:
+- `src/doc/index.rst` — the **landing page** and front matter (title, abstract,
+  authors, foreword). Replace the `<placeholders>`.
+- `src/doc/chapters/` — the **chapters**, in reading order
+  (`01_chapter1.rst` … `07_references.rst`). Replace the *lorem ipsum* with your
+  own content.
 
-   - Install virtualenv
-   - Run:
+The chapters are written to teach the system as you read them: chapter 1 covers
+text, lists, links and admonitions; chapter 2 covers figures, tables and
+diagrams; chapter 3 covers organising a large document; chapter 4 covers API
+references.
 
-     ```shell
-        virtualenv -p python py4osia
-        source py4osia/bin/activate
-     ```
-5. Install Sphinx and the required dependencies:
+## 2. Set up a local build environment
+
+You need this only to preview locally — the online build (step 5) needs no
+setup. To build on your own machine:
+
+1. **Install Python 3.10+** (3.12 recommended).
+2. **Install the Python dependencies:**
 
    ```shell
    pip install -r requirements.txt
    ```
 
-6. Fork the OSIA repository and clone locally your fork
-7. Build the documentation running:
+3. **For diagrams — install Java and PlantUML** (optional; skip if your document
+   has no `.. uml::` diagrams):
 
-   ```shell
-   sphinx-build -b html src/doc target/html
-   ```
-## Edit the documentation
+   - Install Java 17 or newer.
+   - Download `plantuml.jar` from <https://plantuml.com/download> and place it in
+     the repository root.
+   - Tell the build where it is by setting the `PLANTUML` environment variable.
+     In PowerShell:
 
-The OSIA documentation is organized in text files, each file corresponding to a chapter.
+     ```powershell
+     $env:PLANTUML = "java -jar $PWD/plantuml.jar"
+     ```
 
-Sphinx syntax is explained here: http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
-You can also check http://www.sphinx-doc.org/en/master/usage/quickstart.html.
+   Without this, the build still succeeds but diagrams show as broken images
+   locally. (The online build installs PlantUML automatically.)
 
-To add a new API in OSIA:
+## 3. Build and preview
 
-1. Isolate the functional description in a new file in directory `src/doc/functional`.
-   There is already one file per interface. Just copy & paste one to bootstrap a new one.
-2. Reference (include) this functional description in the chapters 5.
-3. Add the corresponding OpenAPI v3 YAML file in `src/doc/yaml` and add a file in `src/doc/07 - technical specs.rst`
-   referencing the yaml.
-   Look for samples in the existing files.
+**One-off build:**
 
+```shell
+sphinx-build -b html src/doc target/html
+```
+
+Open `target/html/index.html` in a browser.
+
+**Live preview (recommended)** — rebuilds and refreshes the browser as you save.
+On Windows:
+
+```powershell
+./preview.ps1
+```
+
+This starts a local server at <http://127.0.0.1:8000>, sets up PlantUML for you,
+and forces full rebuilds (needed because edits to *included* files do not always
+refresh the page that includes them).
+
+## 4. Edit the content
+
+- **Text, tables, diagrams, cross-references** — see the built chapters; they
+  demonstrate every feature and the source shows the markup.
+- **Add an API reference** — put your OpenAPI (Swagger 3.0) file in `src/doc/yaml/`,
+  copy `src/doc/chapters/04_chapter4/interface1.rst` as a pattern (repoint its
+  `../../yaml/…` paths at your file), and list the new page in
+  `04_chapter4/index.rst`.
+- **Add an image** — put it in `src/doc/images/` and reference it with a relative
+  path (see chapter 2). Use a single PNG so it works in both HTML and PDF.
+
+### Changing the look
+
+The template uses the [Furo](https://github.com/pradyunsg/furo) theme with a
+custom styling layer. To rebrand, edit the CSS variables at the top of
+`src/doc/_static/osia-furo.css` (colours, fonts). **Do not change `html_theme`
+in `conf.py` or remove the custom CSS/JS/templates** — the layout is built on
+Furo and will break without it.
+
+## 5. Publish
+
+Pushing to the `main` branch automatically builds the HTML site and PDF and
+deploys them to GitHub Pages, via the workflow in `.github/workflows/docs.yml`.
+
+To enable it on a new repository: in **Settings → Pages**, set **Source** to
+**GitHub Actions**. The published site then updates on every push.
+
+## 6. Build the PDF locally (optional)
+
+The online build produces the PDF for you. To build it yourself you need a LaTeX
+distribution (TeX Live or MiKTeX):
+
+```shell
+sphinx-build -b latex src/doc target/latex
+make -C target/latex
+```
